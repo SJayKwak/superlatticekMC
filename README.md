@@ -6,4 +6,8 @@ Files
   ipynb Notebook for our kmc implementation
 
 ### planar55_xxyyzz.csv
-  data for $\mathrm(\epsilon_{xx})$
+  data for linear regression to estimate the adsorption energies; contains $\mathrm(\epsilon_{xx} + \epsilon_{yy} + \epsilon_{zz})/3$ 
+
+### gibbs_free_energies_at_temperatures.csv
+  data for linear regression to estimate the adsorption energies; contains ASE Thermochemistry module calculated Gibbs Free energies of TMA adsorption (https://gitlab.com/ase/ase)
+  
