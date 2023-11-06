@@ -6,4 +6,4 @@ Files
   ipynb Notebook for our kmc implementation
 
 ### planar55_xxyyzz.csv
-  data for \mathrm$(\epsilon_{xx})
+  data for $\mathrm(\epsilon_{xx})$
