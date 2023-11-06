@@ -1,0 +1,72 @@
+# by Jin-Wu Jiang, jwjiang5918@hotmail.com; jiangjinwu@shu.edu.cn
+# modified by Seung Jae Kwak
+# deform by tension
+#1 general
+units		metal
+dimension	3
+atom_style      atomic
+neighbor        0.3 bin
+
+#2 structure
+boundary	p p p
+read_data	mose_supercell_25_52_Se.dat
+mass            1 95.94
+mass            2 78.96
+mass            3 32.066
+mass            4 78.96
+mass            5 32.066
+#3 variables
+variable	temperature equal 4.2
+variable	pressure equal 0.0
+variable        tstep equal 0.001
+variable	strainmax equal 0.4
+variable	srate equal 1.e7/1.e12
+variable        tmp equal bound(all,xmax)-bound(all,xmin)
+variable        lenx equal ${tmp}
+variable	vtension equal sqrt(${srate}*${srate})*${lenx}
+variable	nstep equal ${strainmax}*${lenx}/${vtension}/${tstep}
+
+#4 potentials
+pair_style      sw/mod
+pair_coeff      * * tmd.sw Mo Se S Se S 
+
+#5 optimize at 0 K
+dump            1 all custom 10000 dump_minimization.lammpstrj id type x y z
+fix		1 all box/relax x 0.0 y 0.0 couple xy
+min_style	cg
+minimize	0.0 1.0e-8 1000000 1000000
+undump		1
+unfix		1
+
+#6 optimize at T
+compute         peratom all pe/atom
+reset_timestep  0
+timestep        ${tstep}
+velocity        all create ${temperature} 11111 mom yes rot yes
+fix             1 all npt temp ${temperature} ${temperature} 0.1 iso ${pressure} ${pressure} 1  ####iso means xyz will be coupled together. already satisfying.
+dump            1 all custom 10000 dump_optimize.lammpstrj id type x y z c_peratom fx fy fz
+thermo          1000
+thermo_style    custom step lx ly lz press pxx pyy pzz pe temp
+neigh_modify    once yes
+run             10000
+write_dump      all custom 10ps.lammpstrj id type x y z c_peratom fx fy fz
+undump          1
+
+dump            1 all custom 10000 dump_optimize.lammpstrj id type x y z c_peratom fx fy fz
+thermo          5000
+thermo_style    custom step lx ly lz press pxx pyy pzz pe temp
+neigh_modify    once yes
+run             90000
+write_dump      all custom 100ps.lammpstrj id type x y z c_peratom fx fy fz
+undump          1
+
+#write_dump      all custom dump_last.lammpstrj id type x y z c_peratom fx fy fz
+#dump            1 all custom 10000 dump_optimize.lammpstrj id type x y z c_peratom fx fy fz
+#thermo          5000
+#thermo_style    custom step lx ly lz press pxx pyy pzz pe temp
+#neigh_modify    once yes
+#run             900000
+#undump          1
+#write_dump      all custom 1ns.lammpstrj id type x y z c_peratom fx fy fz
+
+print		"# Job done, Sir! See you."
