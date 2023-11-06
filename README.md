@@ -9,3 +9,7 @@ The description for the files are as below:
 
 **gibbs_free_energies_at_temperatures.csv  :** data for linear regression to estimate the adsorption energies; contains ASE Thermochemistry module calculated Gibbs Free energies of TMA adsorption (https://gitlab.com/ase/ase)
   
+**mdcalc_140x170 : ** The examplar lammps run directory containing the blow files
+  100ps.lammpstrj : the 100ps run trajectory file
+  in.tension : the input to lammps
+  mose_supercell_25_52_S.dat : the superlattice of 
