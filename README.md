@@ -12,7 +12,7 @@ The description for the files are as below:
 **mdcalc_140x170 :** The examplar lammps run directory containing the lammps runscript and results, along with strain mapping for the atoms.
 >>**-in.tension :** the input to lammps
 >>
->>**-tmd.sw :** the modified Stillinger-Weber potential file for lammps, parameterized by Zhang et. al (https://link.springer.com/article/10.1007/s10338-018-0049-z)
+>>**-tmd.sw :** the modified Stillinger-Weber potential file for lammps, parameterized by Jiang et. al (https://link.springer.com/article/10.1007/s10338-018-0049-z)
 >>
 >>**-mose_supercell_25_52_S.dat :** the superlattice before deformation. fit to the S lattice parameter
 >>
